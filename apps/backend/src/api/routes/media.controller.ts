@@ -169,6 +169,11 @@ export class MediaController {
     res.status(200).json({ ...upload, saved: saveFile });
   }
 
+  @Post('/migrate-types')
+  async migrateMediaTypes(@GetOrgFromRequest() org: Organization) {
+    return this._mediaService.migrateMediaTypes(org.id);
+  }
+
   @Get('/')
   getMedia(
     @GetOrgFromRequest() org: Organization,

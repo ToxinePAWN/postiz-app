@@ -34,6 +34,7 @@ export class MediaRepository {
         path: true,
         thumbnail: true,
         alt: true,
+        type: true,
       },
     });
   }
@@ -116,6 +117,55 @@ export class MediaRepository {
     return {
       pages,
       results,
+    };
+  }
+
+  async migrateMediaTypes(orgId?: string) {
+    // Find all media that need type correction
+    const whereClause = {
+      deletedAt: null,
+      ...(orgId ? { organizationId: orgId } : {}),
+    };
+
+    const mediasToUpdate = await this._media.model.media.findMany({
+      where: whereClause,
+      select: {
+        id: true,
+        name: true,
+        path: true,
+        type: true,
+      },
+    });
+
+    let updatedCount = 0;
+
+    for (const media of mediasToUpdate) {
+      // Determine correct type based on file extension
+      const isVideo = media.name.toLowerCase().includes('.mp4') || 
+                     media.name.toLowerCase().includes('.mov') || 
+                     media.name.toLowerCase().includes('.avi') || 
+                     media.name.toLowerCase().includes('.webm') ||
+                     media.path.toLowerCase().includes('.mp4') || 
+                     media.path.toLowerCase().includes('.mov') || 
+                     media.path.toLowerCase().includes('.avi') || 
+                     media.path.toLowerCase().includes('.webm');
+      
+      const correctType = isVideo ? 'video' : 'image';
+
+      // Only update if the type is incorrect
+      if (media.type !== correctType) {
+        await this._media.model.media.update({
+          where: { id: media.id },
+          data: { type: correctType },
+        });
+        updatedCount++;
+      }
+    }
+
+    return {
+      totalMedias: mediasToUpdate.length,
+      updatedCount,
+      message: `Updated ${updatedCount} media(s) out of ${mediasToUpdate.length} total media(s)`,
     };
   }
 }

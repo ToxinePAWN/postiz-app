@@ -79,6 +79,10 @@ export class MediaService {
     return true;
   }
 
+  async migrateMediaTypes(orgId?: string) {
+    return this._mediaRepository.migrateMediaTypes(orgId);
+  }
+
   async generateVideo(org: Organization, body: VideoDto) {
     const totalCredits = await this._subscriptionService.checkCredits(
       org,
