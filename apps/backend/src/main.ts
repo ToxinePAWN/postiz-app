@@ -11,6 +11,7 @@ import { HttpExceptionFilter } from '@gitroom/nestjs-libraries/services/exceptio
 import { ConfigurationChecker } from '@gitroom/helpers/configuration/configuration.checker';
 
 async function bootstrap() {
+  console.log('\n🚨🚨🚨 DOKPLOY DEPLOYMENT TEST - MAIN.TS LOADED 🚨🚨🚨\n');
   const app = await NestFactory.create(AppModule, {
     rawBody: true,
     cors: {
