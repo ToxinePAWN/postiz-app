@@ -7,6 +7,16 @@ export class MediaRepository {
   constructor(private _media: PrismaRepository<'media'>) {}
 
   saveFile(org: string, fileName: string, filePath: string) {
+    // Determine media type based on file extension
+    const isVideo = fileName.toLowerCase().includes('.mp4') || 
+                   fileName.toLowerCase().includes('.mov') || 
+                   fileName.toLowerCase().includes('.avi') || 
+                   fileName.toLowerCase().includes('.webm') ||
+                   filePath.toLowerCase().includes('.mp4') || 
+                   filePath.toLowerCase().includes('.mov') || 
+                   filePath.toLowerCase().includes('.avi') || 
+                   filePath.toLowerCase().includes('.webm');
+    
     return this._media.model.media.create({
       data: {
         organization: {
@@ -16,6 +26,7 @@ export class MediaRepository {
         },
         name: fileName,
         path: filePath,
+        type: isVideo ? 'video' : 'image',
       },
       select: {
         id: true,

@@ -426,8 +426,12 @@ export class TiktokProvider extends SocialAbstract implements SocialProvider {
     const [firstPost] = postDetails;
 
     // Check if it's a photo/image by checking both the file extension and media type
-    const isPhoto = firstPost?.media?.[0]?.type === 'image' || 
-                   (firstPost?.media?.[0]?.path?.indexOf('mp4') || -1) === -1;
+    const isVideo = firstPost?.media?.[0]?.type === 'video' || 
+                   firstPost?.media?.[0]?.path?.toLowerCase().includes('.mp4') ||
+                   firstPost?.media?.[0]?.path?.toLowerCase().includes('.mov') ||
+                   firstPost?.media?.[0]?.path?.toLowerCase().includes('.avi') ||
+                   firstPost?.media?.[0]?.path?.toLowerCase().includes('.webm');
+    const isPhoto = !isVideo;
     const {
       data: { publish_id },
     } = await (
