@@ -18,4 +18,12 @@ export class MediaDto {
   @ValidateIf((o) => o.thumbnail)
   @IsUrl()
   thumbnail?: string;
+
+  @ValidateIf((o) => o.type)
+  @IsString()
+  type?: string;
+
+  @ValidateIf((o) => o.thumbnailTimestamp)
+  @IsString()
+  thumbnailTimestamp?: string;
 }
