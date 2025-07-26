@@ -7,12 +7,6 @@ export class MediaRepository {
   constructor(private _media: PrismaRepository<'media'>) {}
 
   saveFile(org: string, fileName: string, filePath: string) {
-    console.log('\n===========================================');
-    console.log('🔥🔥🔥 ZZZZZZZ - DEPLOYMENT TEST - ZZZZZZZ 🔥🔥🔥');
-    console.log('===========================================');
-    console.log('📁 SAVING FILE:', fileName);
-    console.log('📂 FILE PATH:', filePath);
-    
     // Determine media type based on file extension
     const isVideo = fileName.toLowerCase().includes('.mp4') || 
                    fileName.toLowerCase().includes('.mov') || 
@@ -22,11 +16,6 @@ export class MediaRepository {
                    filePath.toLowerCase().includes('.mov') || 
                    filePath.toLowerCase().includes('.avi') || 
                    filePath.toLowerCase().includes('.webm');
-    
-    console.log('🎬 IS VIDEO?', isVideo);
-    console.log('📋 TYPE WILL BE:', isVideo ? 'video' : 'image');
-    console.log('🔥🔥🔥 ZZZZZZZ - DEPLOYMENT TEST - ZZZZZZZ 🔥🔥🔥');
-    console.log('===========================================\n');
     
     return this._media.model.media.create({
       data: {
@@ -54,6 +43,15 @@ export class MediaRepository {
     return this._media.model.media.findUnique({
       where: {
         id,
+      },
+      select: {
+        id: true,
+        name: true,
+        path: true,
+        thumbnail: true,
+        alt: true,
+        type: true,  // ← AJOUT DU CHAMP TYPE !
+        thumbnailTimestamp: true,
       },
     });
   }

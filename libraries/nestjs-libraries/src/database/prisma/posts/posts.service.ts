@@ -181,13 +181,7 @@ export class PostsService {
                            m.path.toLowerCase().includes('.webm') ||
                            m.type === 'video';
             
-            console.log('\n🚨 UPDATE MEDIA DEBUG 🚨');
-            console.log('📁 MEDIA PATH:', m.path);
-            console.log('🎬 IS VIDEO?', isVideo);
-            console.log('📋 EXISTING TYPE:', m.type);
-            console.log('📋 NEW TYPE:', isVideo ? 'video' : 'image');
-            
-            const result = {
+            return {
               ...m,
               url:
                 m.path.indexOf('http') === -1
@@ -202,11 +196,6 @@ export class PostsService {
                   ? process.env.UPLOAD_DIRECTORY + m.path
                   : m.path,
             };
-            
-            console.log('📤 FINAL RESULT:', JSON.stringify(result, null, 2));
-            console.log('🚨 UPDATE MEDIA DEBUG END 🚨\n');
-            
-            return result;
           })
           .map(async (m) => {
             if (!convertToJPEG) {

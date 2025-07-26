@@ -250,12 +250,13 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
             content: value.content,
             image:
               (value?.media || []).map(
-                ({ id, path, alt, thumbnail, thumbnailTimestamp }: any) => ({
+                ({ id, path, alt, thumbnail, thumbnailTimestamp, type }: any) => ({
                   id,
                   path,
                   alt,
                   thumbnail,
                   thumbnailTimestamp,
+                  type,
                 })
               ) || [],
           })),

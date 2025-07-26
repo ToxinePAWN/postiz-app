@@ -2,8 +2,7 @@ services:
   postiz:
     build:
       context: .
-      dockerfile: Dockerfile.dev  # Le bon Dockerfile !
-      no_cache: true  # Force rebuild sans cache
+      dockerfile: Dockerfile.dev
     container_name: postiz
     restart: always
     env_file:
