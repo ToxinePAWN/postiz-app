@@ -1,6 +1,8 @@
 services:
   postiz:
-    build: .  # Build depuis votre fork local
+    build:
+      context: .
+      dockerfile: Dockerfile.dev  # Le bon Dockerfile !
     container_name: postiz
     restart: always
     env_file:
