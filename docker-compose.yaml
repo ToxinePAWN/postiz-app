@@ -1,5 +1,6 @@
 services:
   postiz:
+    build: .  # Build depuis votre fork local
     container_name: postiz
     restart: always
     env_file:
